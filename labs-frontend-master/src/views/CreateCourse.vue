@@ -1,83 +1,45 @@
 <template>
-    <div class="create-course">
-        <h2>Crear un nuevo curso</h2>
-        <form @submit.prevent="submitForm">
-            <div>
-                <label for="name">Nombre del curso:</label>
-                <input type="text" id="name" v-model="course.name">
-            </div>
-            <div>
-                <label for="description">Descripción del curso:</label>
-                <textarea id="description" v-model="course.description"></textarea>
-            </div>
-            <div>
-                <button type="submit">Crear curso</button>
-            </div>
+    <div>
+        <form @submit.prevent="createCourse">
+            <input type="text" v-model="courseName" placeholder="Nombre del curso">
+            <input type="number" v-model="durationHours" placeholder="Duración en horas">
+            <button type="submit">Crear curso</button>
         </form>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import { getAuthenticationToken } from '@/dataStorage';
+import {getAuthenticationToken} from '@/dataStorage';
 
 export default {
-    name: 'CreateCourse',
+    name: "create-course",
+    components: {},
     data() {
         return {
-            course: {
-                name: '',
-                description: ''
-            }
-        };
+            courseName: '',
+            durationHours: null,
+        }
     },
+
     methods: {
-        submitForm() {
-            const requestPath = '/profesor/crear-curso';
-            const config = { headers: { Authorization: 'Bearer ' + getAuthenticationToken() } };
-            axios.post(this.$store.state.backURL + requestPath, this.course, config)
+        createCourse() {
+            const coursePojo = {
+                courseName: this.courseName,
+                durationHours: this.durationHours,
+            };
+
+            axios.post('/profesor/crear-curso', coursePojo)
                 .then(response => {
-                    if (response.status !== 201) {
-                        alert('Error en la respuesta del servidor');
-                    } else {
-                        this.course = { name: '', description: '' };
-                        alert('El curso ha sido creado exitosamente');
-                    }
+                    console.log('Curso creado exitosamente');
+                    console.log(response); // agregar para verificar la respuesta recibida
+                    this.$router.push({ name: 'courses' }); // redirigir a la página de cursos
                 })
                 .catch(error => {
-                    alert('Error con la conexión al servidor');
+                    console.log('Error al crear el curso:', error);
+                    // hacer algo aquí, como mostrar un mensaje de error
                 });
-        }
-    }
+        },
+    },
 };
 </script>
-
-<style scoped>
-.create-course {
-    margin: 20px;
-}
-
-.create-course label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.create-course input[type="text"],
-.create-course textarea {
-    width: 100%;
-    padding: 5px;
-    margin-bottom: 10px;
-}
-
-.create-course button[type="submit"] {
-    padding: 5px 10px;
-    background-color: #3f51b5;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.create-course button[type="submit"]:hover {
-    background-color: #303f9f;
-}</style>

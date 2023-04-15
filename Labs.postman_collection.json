@@ -239,7 +239,19 @@
 					"name": "Get enrolled courses",
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "soft-eng-ii",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -255,7 +267,50 @@
 						}
 					},
 					"response": []
-				}
+				},{
+					"name": "Create a new course",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "secret",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "soft-eng-ii",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"courseName\":\"Curso de prueba\",\"durationHours\":10}"
+						},
+						"url": {
+							"raw": "localhost:8080/profesor/crear-curso",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"profesor",
+								"crear-curso"
+							]
+						}
+					},
+					"response": []
+				}				
 			],
 			"protocolProfileBehavior": {}
 		}
