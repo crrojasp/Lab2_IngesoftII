@@ -6,7 +6,9 @@ import Home from "./views/Home";
 import AddRole from "./components/AddRole";
 import Courses from '@/views/Courses';
 import Roles from "@/components/Roles";
-import createCourse from "@/views/CreateCourse.vue"; // importa el componente
+
+import Profesores from "./views/Profesores";
+import CreateCourse from "./components/CreateCourse";
 
 Vue.use(Router);
 
@@ -31,11 +33,6 @@ export default new Router({
       component: Courses
     },
     {
-      path: '/profesor/crear-curso', // define la ruta para CreateCourse.vue
-      name: 'create-course',
-      component: createCourse
-    },
-    {
       path: "/principal",
       name: "home",
       component: Home,
@@ -46,11 +43,34 @@ export default new Router({
           component: AddRole
         },
         {
-          path: "roles",
+          path: "mis-roles",
           name: "roles",
           component: Roles
         }
       ]
+    },
+    {
+      path: "/profesores",
+      name: "profesores",
+      component: Profesores,
+      children: [
+        {
+          path: "nuevo-rol",
+          name: "add-role",
+          component: AddRole
+        },
+        {
+          path: "mis-roles",
+          name: "roles",
+          component: Roles
+        },
+        {
+          path: "nuevo-curso",
+          name: "CreateCourse",
+          component: CreateCourse
+        }
+      ]
     }
   ]
-});
+})
+

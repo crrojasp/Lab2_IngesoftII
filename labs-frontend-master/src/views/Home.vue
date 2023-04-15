@@ -1,49 +1,29 @@
 <template>
   <div class="container-fluid mt-2">
-    <h1>Bienvenido al dummy</h1>
-    <div class="row">
-      <router-view></router-view>
+    <h2>Estudiantes</h2>
+    <div class="d-flex">
+      <a type="button" class="btn btn-primary" style="margin: 5px" href="/principal">PRINCIPAL</a>
+      <a type="button" class="btn btn-primary" style="margin: 5px" href="/mis-cursos">VER MIS CURSOS</a>
+      <a type="button" class="btn btn-primary" style="margin: 5px" href="/principal/mis-roles">VER MIS ROLES</a>
+      <a type="button" class="btn btn-primary" style="margin: 5px" href="/principal/nuevo-rol">NUEVO ROL</a>
+      <!-- <a type="button" class="btn btn-primary" style="margin: 5px" href="/principal/nuevo-curso">NUEVO CURSO</a> -->
+      <a type="button" class="btn btn-danger" style="margin: 5px" href="/"> SALIR </a>
     </div>
-    <div class="row mt-2">
-      <router-link to="/mis-cursos" class="btn btn-primary">Mis cursos</router-link>
-    </div>
-    <div>
-      <add-role></add-role>
-      <roles></roles>
-    </div>
-    <div class="row mt-2">
-      <router-link to="/profesor/crear-cursos" class="btn btn-primary">Crear curso</router-link>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-  import {getAuthenticationToken} from '@/dataStorage';
-  import AddRole from '@/components/AddRole.vue';
-  import Roles from '@/components/Roles.vue';
+import { getAuthenticationToken } from '@/dataStorage';
 
-  export default{
-    name: "Home",
-    components: {
-      AddRole,
-      Roles,
-    },
-    data() {
-      return {
-        userRole: null
-      }
-    },
-    beforeCreate() {
-      const token = getAuthenticationToken();
-      if (!token) {
-        this.$router.push({name: 'login'})
-      } else {
-        this.userRole = token.role;
-      }
+export default {
+  name: "Home",
+  beforeCreate() {
+    if (!getAuthenticationToken()) {
+      this.$router.push({ name: 'login' })
     }
   }
+}
 </script>
 
-<style>
-
-</style>
+<style></style>
